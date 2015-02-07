@@ -240,6 +240,8 @@ def trigger_parameterized_builds(parser, xml_parent, data):
       (optional)
     :arg str node-label: Specify the Node for the NodeLabel parameter.
       (optional)
+    :arg str no-parameters: Specify if it can be build without parameters
+      (optional, default 'false')
 
     Example:
 
@@ -335,7 +337,11 @@ def trigger_parameterized_builds(parser, xml_parent, data):
         condition.text = project_def.get('condition', 'ALWAYS')
         trigger_with_no_params = XML.SubElement(tconfig,
                                                 'triggerWithNoParameters')
-        trigger_with_no_params.text = 'false'
+        if str(project_def.get('no-parameters', 'false')).lower() == 'false':
+            trigger_with_no_params.text = 'false'
+        else:
+            trigger_with_no_params.text = 'true'
+
 
 
 def trigger(parser, xml_parent, data):
