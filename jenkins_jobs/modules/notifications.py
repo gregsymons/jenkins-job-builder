@@ -43,6 +43,8 @@ def http_endpoint(parser, xml_parent, data):
         request (30 seconds by default)
     :arg str log: Number lines of log messages to send (0 by default).
         Use -1 for all (use with caution).
+    :arg str format: in which format data should be send, either XML of JSON
+      (default)
 
     Example:
 
@@ -50,6 +52,10 @@ def http_endpoint(parser, xml_parent, data):
     /../../tests/notifications/fixtures/http-endpoint002.yaml
        :language: yaml
 
+      notifications:
+        - http:
+            url: http://example.com/jenkins_endpoint
+            format: json
     """
     endpoint_element = XML.SubElement(xml_parent,
                                       'com.tikal.hudson.plugins.notification.'
@@ -76,6 +82,8 @@ def http_endpoint(parser, xml_parent, data):
 
     XML.SubElement(endpoint_element, 'timeout').text = str(data.get('timeout',
                                                            30000))
+    data_format = data.get('format', 'JSON')
+    XML.SubElement(endpoint_element, 'format').text = data_format
     XML.SubElement(endpoint_element, 'url').text = data['url']
     XML.SubElement(endpoint_element, 'loglines').text = str(data.get('log', 0))
 
