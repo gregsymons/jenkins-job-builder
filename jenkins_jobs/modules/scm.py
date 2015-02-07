@@ -144,6 +144,7 @@ remoteName/\*')
         :arg str timeout: Timeout for git commands in minutes (optional)
         :arg bool wipe-workspace: Wipe out workspace before build
           (default true)
+        :arg bool tag-builds: create a tag per build (default false)
 
     :browser values:
         :auto:
@@ -330,6 +331,11 @@ remoteName/\*')
     wipe_workspace = str(data.get('wipe-workspace', True)).lower()
     if wipe_workspace == 'true':
         ext_name = 'hudson.plugins.git.extensions.impl.WipeWorkspace'
+        ext = XML.SubElement(exts_node, ext_name)
+
+    tag_builds = str(data.get('tag-builds', 'false')).lower()
+    if tag_builds == 'true':
+        ext_name = 'hudson.plugins.git.extensions.impl.PerBuildTag'
         ext = XML.SubElement(exts_node, ext_name)
 
     browser = data.get('browser', 'auto')
