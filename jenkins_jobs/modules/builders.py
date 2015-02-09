@@ -96,6 +96,8 @@ def copyartifact(parser, xml_parent, data):
     :arg bool optional: If the artifact is missing (for any reason) and
         optional is true, the build won't fail because of this builder
         (default: false)
+    :arg bool no-fingerprint: If artifacts should not be fingerprinted
+      (default: false)
     :arg str which-build: which build to get artifacts from
         (optional, default last-successful)
     :arg str build-number: specifies the build number to get when
@@ -184,6 +186,9 @@ def copyartifact(parser, xml_parent, data):
         XML.SubElement(selector, 'id').text = permalinkdict[permalink]
     if select == 'build-param':
         XML.SubElement(selector, 'parameterName').text = data['param']
+
+    text = str(data.get('no-fingerprint', False)).lower()
+    XML.SubElement(t, 'doNotFingerprintArtifacts').text = text
 
 
 def change_assembly_version(parser, xml_parent, data):
