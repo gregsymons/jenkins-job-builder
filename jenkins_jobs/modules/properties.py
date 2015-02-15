@@ -571,6 +571,21 @@ def zeromq_event(parser, xml_parent, data):
     XML.SubElement(zmq_event, 'enabled').text = 'true'
 
 
+def disk_usage(parser, xml_parent, data):
+    """yaml: disk-usage
+
+    Configures Jenkins to monitor the disk usage of jobs.
+    Requires the Jenkins `Disk Usage Plugin.
+    <https://wiki.jenkins-ci.org/display/JENKINS/Disk+Usage+Plugin>`_
+
+    Example::
+
+      properties:
+        - disk-usage
+    """
+    XML.SubElement(xml_parent, 'hudson.plugins.disk__usage.DiskUsageProperty')
+
+
 class Properties(jenkins_jobs.modules.base.Base):
     sequence = 20
 
