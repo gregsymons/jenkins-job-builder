@@ -38,7 +38,13 @@ class Definitions(jenkins_jobs.modules.base.Base):
     component_list_type = 'definitions'
 
     def gen_xml(self, parser, xml_parent, data):
-        publishers = XML.SubElement(xml_parent, 'definition')
+        if xml_parent.tag == 'flow-definition':
+            publishers = XML.SubElement(xml_parent, 'definition')
 
-        for action in data.get('definitions', []):
-            self.registry.dispatch('definition', parser, publishers, action)
+            for action in data.get('definitions', []):
+                self.registry.dispatch(
+                    'definition',
+                    parser,
+                    publishers,
+                    action
+                )
