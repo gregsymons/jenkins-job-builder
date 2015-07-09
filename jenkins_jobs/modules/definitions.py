@@ -26,8 +26,13 @@ logger = logging.getLogger(__name__)
 
 
 def scm(parser, xml_parent, data):
-    from jenkins_jobs.modules.scm import git
-    git(parser, xml_parent, data)
+    type = 'git'
+    if 'type' in data:
+        type = data.get('type')
+
+    scmModule = __import__('jenkins_jobs.modules.scm', fromlist=type)
+    scmHandler = getattr(scmModule, type)
+    scmHandler(parser, xml_parent, data)
 
 
 def script(parser, xml_parent, data):
