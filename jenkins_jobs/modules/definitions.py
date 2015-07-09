@@ -20,6 +20,9 @@ LATER
 
 import xml.etree.ElementTree as XML
 import jenkins_jobs.modules.base
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def scm(parser, xml_parent, data):
@@ -29,6 +32,9 @@ def scm(parser, xml_parent, data):
 
 def script(parser, xml_parent, data):
     XML.SubElement(xml_parent, 'scriptPath').text = data.get('filename')
+
+def inline(parser, xml_parent, data):
+    XML.SubElement(xml_parent, 'script').text = data
 
 
 class Definitions(jenkins_jobs.modules.base.Base):
