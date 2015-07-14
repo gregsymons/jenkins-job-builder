@@ -26,6 +26,8 @@ logger = logging.getLogger(__name__)
 
 
 def scm(parser, xml_parent, data):
+    xml_parent.set('class', 'org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition')
+
     type = 'git'
     if 'type' in data:
         type = data.get('type')
@@ -39,6 +41,7 @@ def script(parser, xml_parent, data):
     XML.SubElement(xml_parent, 'scriptPath').text = data.get('filename')
 
 def inline(parser, xml_parent, data):
+    xml_parent.set('class', 'org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition')
     XML.SubElement(xml_parent, 'script').text = data
 
 
@@ -51,6 +54,7 @@ class Definitions(jenkins_jobs.modules.base.Base):
     def gen_xml(self, parser, xml_parent, data):
         if xml_parent.tag == 'flow-definition':
             publishers = XML.SubElement(xml_parent, 'definition')
+            publishers.set('plugin', 'workflow-cps@1.8')
 
             for action in data.get('definitions', []):
                 self.registry.dispatch(

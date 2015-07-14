@@ -27,4 +27,5 @@ class Workflow(jenkins_jobs.modules.base.Base):
 
     def root_xml(self, data):
         xml_parent = XML.Element('flow-definition')
+        xml_parent.set('plugin', 'workflow-job@1.8')
         return xml_parent
